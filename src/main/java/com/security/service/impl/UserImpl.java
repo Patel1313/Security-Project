@@ -28,7 +28,10 @@ public class UserImpl implements UserService {
 
     @Override
     public UserDto findByEmail(String email) throws UserNotFound {
-        User user = userRepo.findByEmail(email).orElseThrow(() -> new UserNotFound(String.format("Email :  %s Not Found.", email)));
+        User user = userRepo.findByEmail(email);
+        if (user == null) {
+            throw new UserNotFound(String.format("Email :  %s Not Found.", email));
+        }
         return convertEntityToDto(user);
     }
 
@@ -39,13 +42,13 @@ public class UserImpl implements UserService {
 
     @Override
     public UserDto addUser(UserInput user) {
-        user.setPassword(utils.enCoding(user.getPassword()));
+        //user.setPassword(utils.enCoding(user.getPassword()));
         return convertEntityToDto(userRepo.save(convertEntityToDto(user)));
     }
 
     @Override
     public UserDto login(LogInInput logInInput) throws UserNotFound {
-        logInInput.setPassword(utils.enCoding(logInInput.getPassword()));
+        //logInInput.setPassword(utils.enCoding(logInInput.getPassword()));
         User user = userRepo.findByEmailAndPassword(logInInput.getEmail(), logInInput.getPassword()).orElseThrow(() -> new UserNotFound("Login Details are Not Found."));
         return convertEntityToDto(user);
     }

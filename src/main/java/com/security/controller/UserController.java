@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 @CrossOrigin
 public class UserController {
 
@@ -28,7 +28,7 @@ public class UserController {
         return new ResponseEntity<>(userService.findByEmail(email), HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<UserDto> saveUser(@RequestBody @Valid UserInput user) {
         return new ResponseEntity<>(userService.addUser(user), HttpStatus.CREATED);
     }
