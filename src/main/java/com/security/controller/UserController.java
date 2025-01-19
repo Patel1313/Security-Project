@@ -1,6 +1,7 @@
 package com.security.controller;
 
 import com.security.dto.LogInInput;
+import com.security.dto.UserDto;
 import com.security.dto.UserInput;
 import com.security.exception.UserNotFound;
 import com.security.service.UserService;
@@ -42,8 +43,4 @@ public class UserController {
         return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("welcome")
-    public ResponseEntity<String> welcomeMessage() {
-        return new ResponseEntity<>("Hi", HttpStatus.OK);
-    }
 }
