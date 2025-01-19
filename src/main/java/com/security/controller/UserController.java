@@ -1,6 +1,7 @@
 package com.security.controller;
 
 import com.security.dto.LogInInput;
+import com.security.dto.UserDto;
 import com.security.dto.UserInput;
 import com.security.exception.UserNotFound;
 import com.security.service.UserService;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 @CrossOrigin
 public class UserController {
 
@@ -27,7 +28,7 @@ public class UserController {
         return new ResponseEntity<>(userService.findByEmail(email), HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<UserDto> saveUser(@RequestBody @Valid UserInput user) {
         return new ResponseEntity<>(userService.addUser(user), HttpStatus.CREATED);
     }
@@ -42,8 +43,4 @@ public class UserController {
         return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("welcome")
-    public ResponseEntity<String> welcomeMessage() {
-        return new ResponseEntity<>("Hi", HttpStatus.OK);
-    }
 }

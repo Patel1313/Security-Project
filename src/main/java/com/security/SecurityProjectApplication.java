@@ -1,21 +1,21 @@
 package com.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import static java.lang.System.*;
+
 @SpringBootApplication
 public class SecurityProjectApplication {
-	private final static String applicationUrl = "http://localhost:1313";
-
+	private static final String applicationUrl = "http://localhost:1313";
 	public static void main(String[] args) {
 		SpringApplication.run(SecurityProjectApplication.class, args);
-		System.out.println("SecurityProjectApplication Started..........");
-		System.out.println("Application Url:- "+applicationUrl);
-		System.out.println("Swagger-ui 	Url:- "+applicationUrl+"/actuator");
-		System.out.println("Actuator 	Url:- "+applicationUrl+"/swagger-ui/index.html");
+		out.println("SecurityProjectApplication Started..........");
+		out.println("Application Url:- "+applicationUrl);
+		out.printf("Swagger-ui \tUrl:- %s/actuator%n", applicationUrl);
+		out.printf("Actuator \tUrl:- %s/swagger-ui/index.html%n", applicationUrl);
 	}
 
 	@Bean

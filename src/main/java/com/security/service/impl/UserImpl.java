@@ -2,7 +2,7 @@ package com.security.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.security.dto.LogInInput;
-import com.security.controller.UserDto;
+import com.security.dto.UserDto;
 import com.security.dto.UserInput;
 import com.security.entity.User;
 import com.security.exception.UserNotFound;
@@ -12,7 +12,6 @@ import com.security.utils.Utils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class UserImpl implements UserService {
@@ -29,24 +28,27 @@ public class UserImpl implements UserService {
 
     @Override
     public UserDto findByEmail(String email) throws UserNotFound {
-        User user = userRepo.findByEmail(email).orElseThrow(() -> new UserNotFound(String.format("Email :  %s Not Found.", email)));
+        User user = userRepo.findByEmail(email);
+        if (user == null) {
+            throw new UserNotFound(String.format("Email :  %s Not Found.", email));
+        }
         return convertEntityToDto(user);
     }
 
     @Override
     public List<UserDto> findAll() {
-        return userRepo.findAll().stream().map(this::convertEntityToDto).collect(Collectors.toList());
+        return userRepo.findAll().stream().map(this::convertEntityToDto).toList();
     }
 
     @Override
     public UserDto addUser(UserInput user) {
-        user.setPassword(utils.enCoding(user.getPassword()));
+        //user.setPassword(utils.enCoding(user.getPassword()));
         return convertEntityToDto(userRepo.save(convertEntityToDto(user)));
     }
 
     @Override
     public UserDto login(LogInInput logInInput) throws UserNotFound {
-        logInInput.setPassword(utils.enCoding(logInInput.getPassword()));
+        //logInInput.setPassword(utils.enCoding(logInInput.getPassword()));
         User user = userRepo.findByEmailAndPassword(logInInput.getEmail(), logInInput.getPassword()).orElseThrow(() -> new UserNotFound("Login Details are Not Found."));
         return convertEntityToDto(user);
     }

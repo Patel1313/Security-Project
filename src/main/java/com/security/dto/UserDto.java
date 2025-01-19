@@ -1,4 +1,4 @@
-package com.security.controller;
+package com.security.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;

@@ -1,7 +1,7 @@
 package com.security.service;
 
 import com.security.dto.LogInInput;
-import com.security.controller.UserDto;
+import com.security.dto.UserDto;
 import com.security.dto.UserInput;
 import com.security.exception.UserNotFound;
 import org.springframework.stereotype.Service;
