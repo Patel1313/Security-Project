@@ -13,5 +13,5 @@ public interface UserService {
     UserDto findByEmail(String email) throws UserNotFound;
     List<UserDto> findAll();
     UserDto addUser(UserInput user);
-    UserDto login(LogInInput logInInput) throws UserNotFound;
+    String login(LogInInput logInInput) throws UserNotFound;
 }

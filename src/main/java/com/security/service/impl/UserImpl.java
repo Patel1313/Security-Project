@@ -2,6 +2,7 @@ package com.security.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.security.customsecurity.JwtService;
+import com.security.customsecurity.JwtServiceCustom;
 import com.security.dto.LogInInput;
 import com.security.dto.UserDto;
 import com.security.dto.UserInput;
@@ -24,15 +25,17 @@ public class UserImpl implements UserService {
     private final ObjectMapper objectMapper;
     private final BCryptPasswordEncoder encoder;
     private final JwtService jwtService;
+    private final JwtServiceCustom serviceCustom;
 
     private final AuthenticationManager authenticationManager;
 
-    public UserImpl(UserRepo userRepo, ObjectMapper objectMapper, BCryptPasswordEncoder encoder, JwtService jwtService, AuthenticationManager authenticationManager)
+    public UserImpl(UserRepo userRepo, ObjectMapper objectMapper, BCryptPasswordEncoder encoder, JwtService jwtService, JwtServiceCustom serviceCustom, AuthenticationManager authenticationManager)
     {
         this.userRepo = userRepo;
         this.objectMapper = objectMapper;
         this.encoder = encoder;
         this.jwtService = jwtService;
+        this.serviceCustom = serviceCustom;
         this.authenticationManager = authenticationManager;
     }
 
@@ -66,17 +69,18 @@ public class UserImpl implements UserService {
 //    }
 
     @Override
-    public UserDto login(LogInInput logInInput) throws UserNotFound {
+    public String login(LogInInput logInInput) throws UserNotFound {
         Authentication authenticate = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         logInInput.getEmail(), logInInput.getPassword()
                 ));
         if (authenticate.isAuthenticated()) {
             String token = jwtService.generateToken(logInInput);
-            return new UserDto(0, authenticate.getName(), authenticate.getName(), token);
+            //return new UserDto(0, authenticate.getName(), authenticate.getName(), token);
+            return serviceCustom.generateToken(logInInput.getEmail());
         }
         else {
-            throw new UserNotFound("Failed.");
+            return "Failed.";
         }
     }
 

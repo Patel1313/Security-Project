@@ -34,7 +34,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserDto> login(@RequestBody @Valid LogInInput logInInput) throws UserNotFound {
+    public ResponseEntity<String> login(@RequestBody @Valid LogInInput logInInput) throws UserNotFound {
         return new ResponseEntity<>(userService.login(logInInput), HttpStatus.OK);
     }
 
